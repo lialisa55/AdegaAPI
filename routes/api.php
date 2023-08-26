@@ -18,3 +18,9 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::get(
+    '/', function(){
+        return response()->json([
+        'Success' => true
+        ]);
+    });
