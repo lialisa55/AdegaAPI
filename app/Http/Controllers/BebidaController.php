@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\Bebida;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Response;
+use App\Http\Controllers;
+
 class BebidaController extends Controller
 {
     /**
@@ -13,6 +18,10 @@ class BebidaController extends Controller
     public function index()
     {
         //
+        $dadosBebidas = Bebida::all();
+        $contador = $dadosBebidas->count();
+
+        return 'Bebidas: '.Response()->json([], Response::HTTP_NO_CONTENT);
     }
 
     /**
@@ -20,7 +29,24 @@ class BebidaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $dadosBebidas = $request->all();
+
+        $valida = Validator::make($dadosBebidas, [
+            'nomeBebida' => 'required',
+            'marcaBebida' => 'required'
+        ]);
+
+        if ($valida->fails()){
+            return 'Dados inválidos'.$valida->erros(true). 500;                      
+        }
+
+        $bebidasBanco = Bebidas::create($valida);
+
+        if($bebidasBanco){
+            return 'Bebidas cadastradas'.Response()->json([], Response::HTTP_NO_CONTENT);
+        }else{
+            return 'Bebidas não cadastradas'.Response()->json([], Response::HTTP_NO_CONTENT);;
+        }
     }
 
     /**
@@ -45,5 +71,6 @@ class BebidaController extends Controller
     public function destroy(string $id)
     {
         //
+        
     }
 }
