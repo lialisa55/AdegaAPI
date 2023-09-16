@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Response;
 use App\Http\Controllers;
 
-
 class BebidaController extends Controller
 {
     /**
